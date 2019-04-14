@@ -6,7 +6,7 @@ import com.levi.smarttracker.repository.sql.UserRepository
 import org.springframework.stereotype.Service
 
 @Service
-class UserService(val repository: UserRepository) {
+class UserService(private val repository: UserRepository) {
 
     fun login(username : String, password : String) : User? {
         val user = repository.findByUsername(username)
@@ -14,7 +14,7 @@ class UserService(val repository: UserRepository) {
         else throw Exception("Username or password are invalid!")
     }
 
-    fun retriveByUsername(username: String): User? = repository.findByUsername(username)
+    fun retrieveByUsername(username: String): User? = repository.findByUsername(username)
 
     fun create(user : User): User? = repository.save(User(user.username,
             user.password, user.email, PerfilEnum.ROLE_USER))

@@ -21,7 +21,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-class SecurityConfig(private val unauthorizedHandler: JWTAuthenticationEntryPoint) : WebSecurityConfigurerAdapter() {
+class SecurityConfig(private val unauthorizedHandler: JWTAuthenticationEntryPoint,
+                     private val jwtTokenUtil: JWTTokenUtil,
+                     private val jwtUserDetailsService: JWTUserDetailsService) : WebSecurityConfigurerAdapter() {
 
     @Bean
     @Throws(Exception::class)
@@ -43,7 +45,8 @@ class SecurityConfig(private val unauthorizedHandler: JWTAuthenticationEntryPoin
 
     @Bean
     @Throws(Exception::class)
-    fun authenticationTokenFilterBean(): JWTAuthenticationTokenFilter = JWTAuthenticationTokenFilter()
+    fun authenticationTokenFilterBean(): JWTAuthenticationTokenFilter
+            = JWTAuthenticationTokenFilter(jwtTokenUtil, jwtUserDetailsService)
 
     @Throws(Exception::class)
     override fun configure(httpSecurity: HttpSecurity) {

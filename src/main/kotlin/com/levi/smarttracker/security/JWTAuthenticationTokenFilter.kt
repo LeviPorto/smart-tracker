@@ -7,20 +7,14 @@ import javax.servlet.ServletException
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource
 import org.springframework.web.filter.OncePerRequestFilter
 
-class JWTAuthenticationTokenFilter : OncePerRequestFilter() {
-
-    @Autowired
-    private val userDetailsService: UserDetailsService? = null
-
-    @Autowired
-    private val jwtTokenUtil: JWTTokenUtil? = null
+class JWTAuthenticationTokenFilter(private val jwtTokenUtil: JWTTokenUtil,
+                                   private val jwtUserDetailsService: JWTUserDetailsService)
+                                    : OncePerRequestFilter() {
 
     private val AUTH_HEADER = "Authorization"
     private val BEARER_PREFIX = "Bearer "
@@ -32,11 +26,11 @@ class JWTAuthenticationTokenFilter : OncePerRequestFilter() {
             if (token != null && token.startsWith(BEARER_PREFIX)) {
                 token = token.substring(7)
             }
-            val username = jwtTokenUtil!!.getUsernameFromToken(token!!)
+            val username = jwtTokenUtil.getUsernameFromToken(token!!)
 
             if (username != null && SecurityContextHolder.getContext().authentication == null) {
 
-                val userDetails = this.userDetailsService!!.loadUserByUsername(username)
+                val userDetails = this.jwtUserDetailsService.loadUserByUsername(username)
 
                 if (jwtTokenUtil.tokenValid(token)) {
                     val authentication = UsernamePasswordAuthenticationToken(userDetails, null, userDetails.authorities)

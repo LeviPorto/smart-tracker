@@ -8,11 +8,11 @@ import org.springframework.stereotype.Service
 @Service
 class DeviceService (private val repository : DeviceRepository, private val userRepository : UserRepository) {
 
-    fun create(device : Device, userId : Int) {
+    fun create(device : Device, userId : Int) : Device {
         val deviceByImei = repository.findByImei(device.imei)
         val loggedUser = userRepository.findById(userId)
         if(deviceByImei != null) repository.deleteById(deviceByImei.id!!)
-        repository.save(Device(device.imei, loggedUser.get()))
+        return repository.save(Device(device.imei, loggedUser.get()))
     }
 
 }

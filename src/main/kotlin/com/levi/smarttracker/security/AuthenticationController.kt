@@ -1,5 +1,6 @@
 package com.levi.smarttracker.security
 
+import com.levi.smarttracker.service.UserService
 import java.util.Optional
 
 import javax.servlet.http.HttpServletRequest
@@ -7,6 +8,7 @@ import javax.validation.Valid
 
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.AuthenticationException
+import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.PostMapping
@@ -14,12 +16,12 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
-
 @RestController
 @RequestMapping("/login")
 @CrossOrigin(origins = ["*"])
-class AuthenticationController(private val userDetailsService: JWTUserDetailsService,
-                               private val jwtTokenUtil: JWTTokenUtil) {
+class AuthenticationController(private val jwtUserDetailsService: JWTUserDetailsService,
+                               private val jwtTokenUtil: JWTTokenUtil,
+                               private val userService: UserService) {
 
     private val log = LoggerFactory.getLogger(AuthenticationController::class.java)
     private val TOKEN_HEADER = "Authorization"
@@ -28,16 +30,18 @@ class AuthenticationController(private val userDetailsService: JWTUserDetailsSer
     @PostMapping
     @Throws(AuthenticationException::class)
     fun generateTokenJwt(
-            @Valid @RequestBody authenticationDto: JWTAuthenticationDTO, result: BindingResult): TokenDTO {
+            @Valid @RequestBody authenticationDto: JWTAuthenticationDTO): TokenDTO {
         log.info("Generating token for username {}.", authenticationDto.username)
-
-        val userDetails = userDetailsService.loadUserByUsername(authenticationDto.username!!)
+        //TODO retirar duplicação do retrieveByUsername
+        val user = userService.retrieveByUsername(authenticationDto.username!!)
+                ?: throw UsernameNotFoundException("Username not found.")
+        val userDetails = jwtUserDetailsService.loadUserByUsername(user.username)
         val token = jwtTokenUtil.getToken(userDetails)
 
-        return TokenDTO(token)
+        return TokenDTO(token, user.id!!)
     }
 
-    @PostMapping(value = "/refresh")
+    @PostMapping("/refresh")
     fun generateRefreshTokenJwt(request: HttpServletRequest): TokenDTO {
         log.info("Generating refresh token JWT.")
         var token = Optional.ofNullable(request.getHeader(TOKEN_HEADER))
@@ -46,7 +50,7 @@ class AuthenticationController(private val userDetailsService: JWTUserDetailsSer
             token = Optional.of(token.get().substring(7))
 
         val refreshedToken = jwtTokenUtil.refreshToken(token.get())
-        return TokenDTO(refreshedToken!!)
+        return TokenDTO(refreshedToken!!, null)
     }
 
 }

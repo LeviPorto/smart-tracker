@@ -13,9 +13,7 @@ class JWTUserDetailsService(private val userService: UserService) : UserDetailsS
 
     @Throws(UsernameNotFoundException::class)
     override fun loadUserByUsername(username: String): UserDetails {
-        val user = userService.retriveByUsername(username)
-        if (user != null) return JWTUserFactory.create(user)
-        throw UsernameNotFoundException("Username not found.")
+        return JWTUserFactory.create(userService.retrieveByUsername(username)!!)
     }
 
 }
