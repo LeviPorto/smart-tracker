@@ -1,8 +1,8 @@
 package com.levi.smarttracker.controller
 
 import com.levi.smarttracker.document.Coordinate
-import com.levi.smarttracker.dto.nosql.CoordinateConverterDTO
-import com.levi.smarttracker.dto.nosql.CoordinateDTO
+import com.levi.smarttracker.dto.CoordinateConverterDTO
+import com.levi.smarttracker.dto.CoordinateDTO
 import com.levi.smarttracker.service.CoordinateService
 import org.springframework.web.bind.annotation.*
 

@@ -1,4 +1,4 @@
-package com.levi.smarttracker.repository.sql
+package com.levi.smarttracker.repository
 
 import com.levi.smarttracker.entitiy.User
 import org.springframework.data.repository.CrudRepository

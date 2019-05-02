@@ -1,4 +1,4 @@
-package com.levi.smarttracker.dto.sql
+package com.levi.smarttracker.dto
 
 import com.levi.smarttracker.entitiy.Device
 

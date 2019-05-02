@@ -1,4 +1,4 @@
-package com.levi.smarttracker.security
+package com.levi.smarttracker.security.factory
 
 import java.util.ArrayList
 
@@ -7,6 +7,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority
 
 import com.levi.smarttracker.entitiy.User
 import com.levi.smarttracker.enumerated.PerfilEnum
+import com.levi.smarttracker.security.entity.JWTUser
 
 
 object JWTUserFactory {

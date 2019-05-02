@@ -1,4 +1,4 @@
-package com.levi.smarttracker.security
+package com.levi.smarttracker.security.filter
 
 import com.levi.smarttracker.security.service.JWTUserDetailsService
 import com.levi.smarttracker.security.util.JWTTokenUtil

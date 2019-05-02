@@ -1,5 +1,9 @@
-package com.levi.smarttracker.security
+package com.levi.smarttracker.security.config
 
+import com.levi.smarttracker.security.handler.JWTAuthenticationErroHandler
+import com.levi.smarttracker.security.filter.JWTAuthenticationTokenFilter
+import com.levi.smarttracker.security.util.JWTTokenUtil
+import com.levi.smarttracker.security.service.JWTUserDetailsService
 import javax.sql.DataSource
 
 import org.springframework.context.annotation.Bean
@@ -21,7 +25,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-class SecurityConfig(private val unauthorizedHandler: JWTAuthenticationEntryPoint,
+class SecurityConfig(private val unauthorizedHandler: JWTAuthenticationErroHandler,
                      private val jwtTokenUtil: JWTTokenUtil,
                      private val jwtUserDetailsService: JWTUserDetailsService) : WebSecurityConfigurerAdapter() {
 
@@ -52,7 +56,7 @@ class SecurityConfig(private val unauthorizedHandler: JWTAuthenticationEntryPoin
     override fun configure(httpSecurity: HttpSecurity) {
         httpSecurity.csrf().disable().exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
-                .antMatchers("/login/**", "/configuration/security", "/webjars/**")
+                .antMatchers("/login/**", "/configuration/security", "/webjars/**, /smartTracker/user")
                 .permitAll().anyRequest().authenticated()
         httpSecurity.addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter::class.java)
         httpSecurity.headers().cacheControl()

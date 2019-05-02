@@ -1,5 +1,6 @@
-package com.levi.smarttracker.security
+package com.levi.smarttracker.security.service
 
+import com.levi.smarttracker.security.factory.JWTUserFactory
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.core.userdetails.UsernameNotFoundException

@@ -1,4 +1,4 @@
-package com.levi.smarttracker.security
+package com.levi.smarttracker.security.handler
 
 import java.io.IOException
 
@@ -10,7 +10,7 @@ import org.springframework.security.web.AuthenticationEntryPoint
 import org.springframework.stereotype.Component
 
 @Component
-class JWTAuthenticationEntryPoint : AuthenticationEntryPoint {
+class JWTAuthenticationErroHandler : AuthenticationEntryPoint {
 
     @Throws(IOException::class)
     override fun commence(request: HttpServletRequest, response: HttpServletResponse,

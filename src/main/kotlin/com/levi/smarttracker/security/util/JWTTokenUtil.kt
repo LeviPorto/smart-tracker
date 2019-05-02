@@ -1,4 +1,4 @@
-package com.levi.smarttracker.security
+package com.levi.smarttracker.security.util
 
 import java.util.Date
 import java.util.HashMap

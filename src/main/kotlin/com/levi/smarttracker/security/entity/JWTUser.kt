@@ -1,4 +1,4 @@
-package com.levi.smarttracker.security
+package com.levi.smarttracker.security.entity
 
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails

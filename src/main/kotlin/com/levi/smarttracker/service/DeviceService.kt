@@ -1,8 +1,8 @@
 package com.levi.smarttracker.service
 
 import com.levi.smarttracker.entitiy.Device
-import com.levi.smarttracker.repository.sql.DeviceRepository
-import com.levi.smarttracker.repository.sql.UserRepository
+import com.levi.smarttracker.repository.DeviceRepository
+import com.levi.smarttracker.repository.UserRepository
 import org.springframework.stereotype.Service
 
 @Service

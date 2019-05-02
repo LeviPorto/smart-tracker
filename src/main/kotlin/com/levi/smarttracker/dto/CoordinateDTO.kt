@@ -1,4 +1,4 @@
-package com.levi.smarttracker.dto.nosql
+package com.levi.smarttracker.dto
 
 import com.levi.smarttracker.document.Coordinate
 import java.util.*
@@ -14,7 +14,7 @@ data class CoordinateDTO(
 object CoordinateConverterDTO {
 
     fun convertDTOIntoCoordinate(coordinateDTO: CoordinateDTO): Coordinate {
-        return Coordinate(coordinateDTO.lat, coordinateDTO.lat, coordinateDTO.date, coordinateDTO.deviceId)
+        return Coordinate(coordinateDTO.lat, coordinateDTO.lng, coordinateDTO.date, coordinateDTO.deviceId)
     }
 
 }

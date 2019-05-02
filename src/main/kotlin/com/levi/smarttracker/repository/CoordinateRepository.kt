@@ -1,4 +1,4 @@
-package com.levi.smarttracker.repository.nosql
+package com.levi.smarttracker.repository
 
 import com.levi.smarttracker.document.Coordinate
 import org.springframework.data.mongodb.core.MongoTemplate
@@ -12,6 +12,6 @@ import java.util.*
 @Repository
 interface CoordinateRepository : MongoRepository<Coordinate, String> {
 
-    fun findByDeviceIdAndDateBetween(deviceId: Int, date: Date): List<Coordinate>?
+    fun findByDeviceIdAndDateBetween(deviceId: Int, startDate: Date, endDate : Date): List<Coordinate>?
 
 }
