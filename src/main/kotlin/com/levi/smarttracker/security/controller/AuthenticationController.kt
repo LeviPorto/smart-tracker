@@ -32,7 +32,6 @@ class AuthenticationController(private val jwtUserDetailsService: JWTUserDetails
     fun generateTokenJwt(
             @Valid @RequestBody authenticationDto: JWTAuthenticationDTO): TokenDTO {
         log.info("Generating token for username {}.", authenticationDto.username)
-        //TODO retirar duplicação do retrieveByUsername
         val user = userService.retrieveByUsername(authenticationDto.username!!)
                 ?: throw UsernameNotFoundException("Username not found.")
         val userDetails = jwtUserDetailsService.loadUserByUsername(user.username)

@@ -1,5 +1,7 @@
 package com.levi.smarttracker.security
 
+import com.levi.smarttracker.security.service.JWTUserDetailsService
+import com.levi.smarttracker.security.util.JWTTokenUtil
 import java.io.IOException
 
 import javax.servlet.FilterChain
